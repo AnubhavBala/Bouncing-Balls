@@ -1,0 +1,101 @@
+import java.awt.Color;
+import java.util.Random;
+
+
+public class BallT implements Runnable {
+	/**
+	 * Coordinates where the mouse pressed
+	 */
+	private static int xcord, ycord;
+	/**
+	 * Change in vertical and horizontal directions
+	 */
+	private static int ychange=1, xchange=(int) (Math.random()*4+1);
+	/**
+	 * If ball is going upwards
+	 */
+	private static boolean xUp;
+	/**
+	 * if ball is going right
+	 */
+	private static boolean yUp;
+	/**
+	 * Color of ball
+	 */
+	private Color color;
+	/**
+	 * Calls paint function
+	 */
+	private BallGUI paintcall;
+
+	/**
+	 * 
+	 * @param x: x cord of where mouse is
+	 * @param y: y cord of where the mouse is
+	 * @param ballGUI: BallGUI class
+	 */
+	public BallT(int x, int y, BallGUI ballGUI) {
+		paintcall = ballGUI;
+		yUp = false;
+		xUp = false;
+		xcord = x;
+		ycord = y;
+		Random randomColor = new Random();
+		color = new Color(randomColor.nextInt(255),randomColor.nextInt(255),randomColor.nextInt(255));
+	}
+/**
+ * 
+ * @return color: color of ball
+ */
+	public Color getColor() {
+		return color;
+	}
+/**
+ * 
+ * @return xcord: x coordinate
+ */
+	public int getX() {
+		return xcord;
+	}
+/**
+ * 
+ * @return ycord: y  coordinate
+ */
+	public int getY() {
+		return ycord;
+	}
+/**
+ * Runnable; makes constant changes to the ball once it hits a wall
+ */
+	public void run() {
+		while (true) {
+			if (xUp == true) {
+				xcord = xcord + xchange;
+			} else {
+				xcord = xcord - xchange;
+			}
+			if (yUp == true) {
+				ycord = ycord + ychange;
+			} else {
+				ycord = ycord - ychange;
+			}
+			if (xcord <= 0) {
+				xUp = true;
+				xchange = (int) Math.random() * 5+2;
+			} else if (xcord > 340) {
+				xUp = false;
+				xchange = (int) Math.random() * 5+2;
+			}
+			if (ycord <= 0) {
+				yUp = true;
+				ychange = (int) Math.random() * 5+2;
+			} else if (ycord >340) {
+				yUp = false;
+				ychange = (int) Math.random() * 5+2;
+			}
+			paintcall.repaint();
+		}
+
+	}
+
+}
