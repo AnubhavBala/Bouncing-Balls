@@ -1,0 +1,19 @@
+
+import javax.swing.*;
+
+
+public class MainFrame {
+
+	/**
+	 * Sets up GUI frame
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		BallGUI application = new BallGUI();
+		application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		application.setSize(350, 350);
+		application.setVisible(true);
+
+	}
+
+}
