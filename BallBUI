@@ -1,0 +1,80 @@
+/**
+ * 
+ */
+import javax.swing.*;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * @author Anubhav
+ *
+ */
+@SuppressWarnings("serial")
+public class BallGUI extends JFrame {
+	/**
+	 * Panel for all the balls to appear on
+	 */
+	public JPanel ballappear;
+	/**
+	 * Array holding all the threads
+	 */
+	private BallT[] balls;
+	/**
+	 * count how many balls are on the panel
+	 */
+	private int count;
+	/**
+	 * Executes threads
+	 */
+	private ExecutorService threadPool = Executors.newCachedThreadPool();
+
+	/**
+	 * Creates Gui and, on press, makes a new ball
+	 * 
+	 */
+	public BallGUI() {
+		super("Bouncing");
+		ballappear = new JPanel();
+		count = 0;
+		balls = new BallT[20];
+		addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				makeBall(e);
+			}
+		});
+		add(ballappear);
+
+	}
+/**
+ * Makes a new ball
+ * @param e: event on click
+ */
+	private void makeBall(MouseEvent e) {
+		if (count < 19) {
+			int x = e.getX();
+			int y = e.getY();
+			balls[count] = new BallT(x, y,this);
+			threadPool.execute(balls[count]);
+			count++;
+		}
+
+	}
+/**
+ * Paints ball
+ */
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		for (int i = 0; i < count; i++) {
+			g.setColor(balls[i].getColor());
+			g.fillOval(balls[i].getX(), balls[i].getY(), 10, 10);
+			g.setColor(Color.BLACK);
+			g.fillOval(balls[i].getX(), 340, 10, 5);
+
+		}
+	}
+
+}
